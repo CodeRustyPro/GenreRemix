@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond the Scaling Wall | The Future of AI Progress</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== CSS VARIABLES ==================== */
+        :root {
+            --color-bg-dark: #0a0a0f;
+            --color-bg-section: #12121a;
+            --color-bg-card: #1a1a24;
+            --color-accent-primary: #6366f1;
+            --color-accent-secondary: #818cf8;
+            --color-accent-glow: rgba(99, 102, 241, 0.3);
+            --color-warning: #f59e0b;
+            --color-success: #10b981;
+            --color-danger: #ef4444;
+            --color-text-primary: #f8fafc;
+            --color-text-secondary: #94a3b8;
+            --color-text-muted: #64748b;
+            --color-border: rgba(255, 255, 255, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 8rem;
+            
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.4s ease;
+            --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==================== RESET & BASE ==================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--color-accent-primary);
+            color: white;
+        }
+
+        /* ==================== UTILITY CLASSES ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .container--narrow {
+            max-width: 800px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--spacing-sm) 0;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+            transform: translateY(-100%);
+            transition: transform var(--transition-medium);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            text-decoration: none;
+        }
+
+        .nav__links {
+            display: flex;
+            gap: var(--spacing-md);
+            list-style: none;
+        }
+
+        .nav__link {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav__link:hover {
+            color: var(--color-accent-secondary);
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: var(--spacing-xl) var(--spacing-md);
+            overflow: hidden;
+        }
+
+        .hero__bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--color-accent-glow), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139, 92, 246, 0.15), transparent),
+                radial-gradient(ellipse 40% 30% at 10% 60%, rgba(59, 130, 246, 0.1), transparent);
+            z-index: -1;
+        }
+
+        .hero__grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero__label {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--color-accent-secondary);
+            margin-bottom: var(--spacing-md);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+        }
+
+        .hero__label-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-success);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+            max-width: 900px;
+        }
+
+        .hero__title-gradient {
+            background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent-secondary) 50%, var(--color-accent-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero__subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--color-text-secondary);
+            max-width: 650px;
+            margin-bottom: var(--spacing-lg);
+            font-weight: 300;
+        }
+
+        .hero__cta {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+        }
+
+        .btn--primary {
+            background: var(--color-accent-primary);
+            color: white;
+        }
+
+        .btn--primary:hover {
+            background: var(--color-accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--color-accent-glow);
+        }
+
+        .btn--secondary {
+            background: transparent;
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn--secondary:hover {
+            border-color: var(--color-accent-primary);
+            color: var(--color-accent-secondary);
+        }
+
+        .hero__scroll {
+            position: absolute;
+            bottom: var(--spacing-md);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-text-muted);
+            font-size: 0.8rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .hero__scroll-icon {
+            width: 24px;
+            height: 36px;
+            border: 2px solid var(--color-text-muted);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .hero__scroll-icon::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--color-text-muted);
+            border-radius: 2px;
+            animation: scroll-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes scroll-dot {
+            0%, 100% { opacity: 1; top: 6px; }
+            50% { opacity: 0.3; top: 14px; }
+        }
+
+        /* ==================== INTRO SECTION ==================== */
+        .intro {
+            padding: var(--spacing-xl) 0;
+            background: var(--color-bg-section);
+            position: relative;
+        }
+
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+        }
+
+        .intro__content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .intro__content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .intro__text h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+        }
+
+        .intro__text p {
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .intro__visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scaling-chart {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .scaling-chart__bar {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .scaling-chart__label {
+            width: 80px;
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            text-align: right;
+        }
+
+        .scaling-chart__track {
+            flex: 1;
+            height: 32px;
+            background: var(--color-bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .scaling-chart__fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: var(--spacing-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .scaling-chart__fill--gpt2 {
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+
+        .scaling-chart__fill--gpt3 {
+            width: 0%;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        }
+
+        .scaling-chart__fill--gpt4 {
+            width: 0%;
+            background: linear-gradient(90deg, #6366f1, #818cf8);
+        }
+
+        .scaling-chart__fill--future {
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-warning), #fbbf24);
+        }
+
+        .scaling-chart.animate .scaling-chart__fill--gpt2 { width: 15%; }
+        .scaling-chart.animate .scaling-chart__fill--gpt3 { width: 45%; }
+        .scaling-chart.animate .scaling-chart__fill--gpt4 { width: 75%; }
+        .scaling-chart.animate .scaling-chart__fill--future { width: 90%; }
+
+        .scaling-chart__caption {
+            margin-top: var(--spacing-md);
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== THE THREE WALLS SECTION ==================== */
+        .walls {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-header__eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .section-header__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .section-header__subtitle {
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .walls__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        @media (max-width: 900px) {
+            .walls__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .wall-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: var(--spacing-md);
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition-medium);
+        }
+
+        .wall-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 60px -20px var(--color-accent-glow);
+        }
+
+        .wall-card__icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .wall-card__icon--data {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.05));
+            color: var(--color-danger);
+        }
+
+        .wall-card__icon--cost {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
+            color: var(--color-warning);
+        }
+
+        .wall-card__icon--arch {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.05));
+            color: var(--color-accent-primary);
+        }
+
+        .wall-card__title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .wall-card__description {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .wall-card__stat {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .wall-card__stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .wall-card__stat-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        /* ==================== SOLUTIONS SECTION ==================== */
+        .solutions {
+            padding: var(--spacing-xl) 0;
+            background: var(--color-bg-section);
+            position: relative;
+        }
+
+        .solutions::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+        }
+
+        .solutions__intro {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .solutions__intro p {
+            color: var(--color-text-secondary);
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: var(--spacing-md) auto 0;
+        }
+
+        .solution-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+            padding: var(--spacing-lg) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .solution-item:last-child {
+            border-bottom: none;
+        }
+
+        .solution-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .solution-item:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        @media (max-width: 768px) {
+            .solution-item,
+            .solution-item:nth-child(even) {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+        }
+
+        .solution-item__number {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .solution-item__title {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .solution-item__description {
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .solution-item__key {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--color-success);
+        }
+
+        .solution-item__visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 280px;
+        }
+
+        /* Solution Visualizations */
+        .viz-chinchilla {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .viz-chinchilla__scales {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 200px;
+            gap: var(--spacing-sm);
+        }
+
+        .viz-chinchilla__bar {
+            flex: 1;
+            background: var(--color-bg-card);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: var(--spacing-sm);
+            border: 1px solid var(--color-border);
+        }
+
+        .viz-chinchilla__bar--old {
+            height: 180px;
+        }
+
+        .viz-chinchilla__bar--new {
+            height: 120px;
+            border-color: var(--color-success);
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), var(--color-bg-card));
+        }
+
+        .viz-chinchilla__bar-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        .viz-chinchilla__bar-inner {
+            width: 60%;
+            background: linear-gradient(180deg, var(--color-accent-primary), var(--color-accent-secondary));
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .viz-chinchilla__bar--old .viz-chinchilla__bar-inner {
+            height: 80%;
+        }
+
+        .viz-chinchilla__bar--new .viz-chinchilla__bar-inner {
+            height: 90%;
+            background: linear-gradient(180deg, var(--color-success), #34d399);
+        }
+
+        .viz-chinchilla__caption {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* RAG Visualization */
+        .viz-rag {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .viz-rag__model {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 40px var(--color-accent-glow);
+            position: relative;
+        }
+
+        .viz-rag__pulse {
+            position: absolute;
+            inset: -10px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+            animation: rag-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes rag-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .viz-rag__arrows {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+        }
+
+        .viz-rag__arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--color-text-muted);
+            font-size: 0.8rem;
+        }
+
+        .viz-rag__arrow svg {
+            width: 24px;
+            height: 40px;
+            stroke: var(--color-accent-secondary);
+            stroke-width: 2;
+            fill: none;
+            animation: arrow-flow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrow-flow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .viz-rag__sources {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .viz-rag__source {
+            width: 70px;
+            height: 50px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all var(--transition-fast);
+        }
+
+        .viz-rag__source:hover {
+            border-color: var(--color-accent-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Data Quality Visualization */
+        .viz-data {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .viz-data__row {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .viz-data__icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .viz-data__icon--good {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--color-success);
+        }
+
+        .viz-data__icon--bad {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--color-danger);
+        }
+
+        .viz-data__bar-container {
+            flex: 1;
+        }
+
+        .viz-data__label {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
+
+        .viz-data__bar {
+            height: 8px;
+            background: var(--color-bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .viz-data__bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .viz-data__bar-fill--good {
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-success), #34d399);
+        }
+
+        .viz-data__bar-fill--bad {
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-danger), #f87171);
+        }
+
+        .viz-data.animate .viz-data__bar-fill--good {
+            width: 85%;
+        }
+
+        .viz-data.animate .viz-data__bar-fill--bad {
+            width: 25%;
+        }
+
+        /* ==================== IMPLICATIONS SECTION ==================== */
+        .implications {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+        }
+
+        .implications__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        @media (max-width: 900px) {
+            .implications__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .implication-card {
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-bg-card), var(--color-bg-section));
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            transition: all var(--transition-medium);
+        }
+
+        .implication-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .implication-card__icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .implication-card__title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .implication-card__text {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ==================== QUOTE SECTION ==================== */
+        .quote-section {
+            padding: var(--spacing-xl) 0;
+            background: var(--color-bg-section);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-section::before {
+            content: '"';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-display);
+            font-size: 400px;
+            color: rgba(99, 102, 241, 0.05);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .quote {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote__text {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-primary);
+        }
+
+        .quote__author {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+        }
+
+        .quote__author strong {
+            color: var(--color-accent-secondary);
+            font-weight: 600;
+        }
+
+        /* ==================== AUTHOR SECTION ==================== */
+        .author {
+            padding: var(--spacing-lg) 0;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .author__content {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        @media (max-width: 600px) {
+            .author__content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .author__avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .author__info h4 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .author__info p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ==================== SOURCES SECTION ==================== */
+        .sources {
+            padding: var(--spacing-lg) 0 var(--spacing-xl);
+        }
+
+        .sources__title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .sources__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-sm);
+        }
+
+        .source-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            transition: all var(--transition-fast);
+        }
+
+        .source-link:hover {
+            border-color: var(--color-accent-primary);
+            color: var(--color-text-primary);
+        }
+
+        .source-link__icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-accent-primary);
+            flex-shrink: 0;
+        }
+
+        .source-link__text {
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        .source-link__text strong {
+            color: var(--color-text-primary);
+            display: block;
+            font-weight: 500;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            padding: var(--spacing-md) 0;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--color-accent-secondary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 480px) {
+            .nav__links {
+                display: none;
+            }
+            
+            .hero__cta {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container nav__inner">
+            <a href="#" class="nav__logo">Beyond the Scaling Wall</a>
+            <ul class="nav__links">
+                <li><a href="#walls" class="nav__link">The Walls</a></li>
+                <li><a href="#solutions" class="nav__link">Solutions</a></li>
+                <li><a href="#implications" class="nav__link">Why It Matters</a></li>
+                <li><a href="#sources" class="nav__link">Sources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__grid"></div>
+        
+        <span class="hero__label">
+            <span class="hero__label-dot"></span>
+            The AI Landscape in 2025
+        </span>
+        
+        <h1 class="hero__title">
+            <span class="hero__title-gradient">AI Isn't Dying.</span><br>
+            It's Growing Up.
+        </h1>
+        
+        <p class="hero__subtitle">
+            Headlines say AI has hit a wall. The truth is more interesting: we're not at the end of progress—we're at the beginning of a smarter approach.
+        </p>
+        
+        <div class="hero__cta">
+            <a href="#walls" class="btn btn--primary">
+                Explore the Evidence
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <a href="#solutions" class="btn btn--secondary">See the Solutions</a>
+        </div>
+        
+        <div class="hero__scroll">
+            <div class="hero__scroll-icon"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro" id="intro">
+        <div class="container">
+            <div class="intro__content">
+                <div class="intro__text fade-in">
+                    <h2>The Scaling Era Built Amazing Things</h2>
+                    <p>
+                        For the past decade, AI progress followed a simple formula: <strong>bigger models = better performance</strong>. 
+                        More parameters, more data, more compute. GPT-2 to GPT-3 to GPT-4—each leap validated this approach.
+                    </p>
+                    <p>
+                        But in late 2024, something changed. OpenAI's "Orion" project showed disappointing results. 
+                        Ilya Sutskever declared "the age of scaling is over." Headlines proclaimed AI had hit its limit.
+                    </p>
+                    <p style="color: var(--color-accent-secondary); font-weight: 500;">
+                        They're half right. Pure scaling is hitting walls. But AI progress? That's just getting started.
+                    </p>
+                </div>
+                
+                <div class="intro__visual fade-in">
+                    <div class="scaling-chart" id="scalingChart">
+                        <div class="scaling-chart__bar">
+                            <span class="scaling-chart__label">GPT-2</span>
+                            <div class="scaling-chart__track">
+                                <div class="scaling-chart__fill scaling-chart__fill--gpt2">1.5B</div>
+                            </div>
+                        </div>
+                        <div class="scaling-chart__bar">
+                            <span class="scaling-chart__label">GPT-3</span>
+                            <div class="scaling-chart__track">
+                                <div class="scaling-chart__fill scaling-chart__fill--gpt3">175B</div>
+                            </div>
+                        </div>
+                        <div class="scaling-chart__bar">
+                            <span class="scaling-chart__label">GPT-4</span>
+                            <div class="scaling-chart__track">
+                                <div class="scaling-chart__fill scaling-chart__fill--gpt4">~1.7T</div>
+                            </div>
+                        </div>
+                        <div class="scaling-chart__bar">
+                            <span class="scaling-chart__label">GPT-5?</span>
+                            <div class="scaling-chart__track">
+                                <div class="scaling-chart__fill scaling-chart__fill--future">???</div>
+                            </div>
+                        </div>
+                        <p class="scaling-chart__caption">
+                            Model parameters (log scale, approximate).<br>
+                            Each generation ~100x larger—but at what cost?
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Three Walls Section -->
+    <section class="walls" id="walls">
+        <div class="container">
+            <div class="section-header fade-in">
+                <p class="section-header__eyebrow">The Constraints</p>
+                <h2 class="section-header__title">Three Walls Blocking Pure Scaling</h2>
+                <p class="section-header__subtitle">
+                    These aren't speculation—they're measurable barriers that demand new approaches.
+                </p>
+            </div>
+            
+            <div class="walls__grid">
+                <div class="wall-card fade-in">
+                    <div class="wall-card__icon wall-card__icon--data">📊</div>
+                    <h3 class="wall-card__title">The Data Wall</h3>
+                    <p class="wall-card__description">
+                        We're running out of high-quality human-generated text. Training on AI-generated data causes 
+                        "model collapse"—errors multiply across generations, degrading performance instead of improving it.
+                    </p>
+                    <div class="wall-card__stat">
+                        <span class="wall-card__stat-value">2028</span>
+                        <span class="wall-card__stat-label">Projected exhaustion of quality web text</span>
+                    </div>
+                </div>
+                
+                <div class="wall-card fade-in" style="animation-delay: 0.1s;">
+                    <div class="wall-card__icon wall-card__icon--cost">💰</div>
+                    <h3 class="wall-card__title">The Cost Wall</h3>
+                    <p class="wall-card__description">
+                        Training runs now cost hundreds of millions. GPT-4's training consumed enough energy to power 
+                        thousands of homes for a year. This concentrates AI development in a handful of wealthy labs.
+                    </p>
+                    <div class="wall-card__stat">
+                        <span class="wall-card__stat-value">$100M+</span>
+                        <span class="wall-card__stat-label">Estimated cost of frontier model training</span>
+                    </div>
+                </div>
+                
+                <div class="wall-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="wall-card__icon wall-card__icon--arch">🧠</div>
+                    <h3 class="wall-card__title">The Architecture Wall</h3>
+                    <p class="wall-card__description">
+                        Current transformer architectures lack true reasoning mechanisms. Bigger models still struggle 
+                        with basic logical consistency. Size alone can't solve fundamental design limitations.
+                    </p>
+                    <div class="wall-card__stat">
+                        <span class="wall-card__stat-value">~30%</span>
+                        <span class="wall-card__stat-label">Error rate on multi-step reasoning tasks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solutions">
+        <div class="container">
+            <div class="solutions__intro fade-in">
+                <p class="section-header__eyebrow">The Path Forward</p>
+                <h2 class="section-header__title">Three Strategies Redefining Progress</h2>
+                <p>
+                    The research community isn't stuck—it's pivoting. These approaches represent a fundamental 
+                    shift from "scale everything" to "scale intelligently."
+                </p>
+            </div>
+            
+            <!-- Solution 1: Compute-Optimal Training -->
+            <div class="solution-item fade-in">
+                <div class="solution-item__text">
+                    <p class="solution-item__number">01 / Efficiency</p>
+                    <h3 class="solution-item__title">Compute-Optimal Training</h3>
+                    <p class="solution-item__description">
+                        DeepMind's Chinchilla research proved a critical insight: most AI models were drastically 
+                        <em>undertrained</em> for their size. A smaller model trained on more data beats a larger 
+                        model trained on less—at the same compute cost.
+                    </p>
+                    <p class="solution-item__description">
+                        This reframes scaling as a resource-optimization problem. The goal isn't maximum size—it's 
+                        maximum performance per dollar.
+                    </p>
+                    <span class="solution-item__key">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        Same performance, fraction of the cost
+                    </span>
+                </div>
+                <div class="solution-item__visual">
+                    <div class="viz-chinchilla">
+                        <div class="viz-chinchilla__scales">
+                            <div class="viz-chinchilla__bar viz-chinchilla__bar--old">
+                                <div class="viz-chinchilla__bar-inner"></div>
+                                <span class="viz-chinchilla__bar-label">Old Approach</span>
+                            </div>
+                            <div class="viz-chinchilla__bar viz-chinchilla__bar--new">
+                                <div class="viz-chinchilla__bar-inner"></div>
+                                <span class="viz-chinchilla__bar-label">Chinchilla</span>
+                            </div>
+                        </div>
+                        <p class="viz-chinchilla__caption">
+                            Same performance, ~70% less compute
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Solution 2: Retrieval-Augmented Generation -->
+            <div class="solution-item fade-in">
+                <div class="solution-item__text">
+                    <p class="solution-item__number">02 / Architecture</p>
+                    <h3 class="solution-item__title">Retrieval-Augmented Generation</h3>
+                    <p class="solution-item__description">
+                        Why store all knowledge in model parameters when you can access it dynamically? RAG systems 
+                        retrieve relevant information at query time from external databases.
+                    </p>
+                    <p class="solution-item__description">
+                        This directly solves the data scarcity problem. Models stay smaller and more efficient while 
+                        having access to constantly updated, factual information. Meta's research shows RAG systems 
+                        can outperform much larger purely parametric models.
+                    </p>
+                    <span class="solution-item__key">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        Dynamic knowledge, smaller footprint
+                    </span>
+                </div>
+                <div class="solution-item__visual">
+                    <div class="viz-rag">
+                        <div class="viz-rag__model">
+                            🤖
+                            <div class="viz-rag__pulse"></div>
+                        </div>
+                        <div class="viz-rag__arrows">
+                            <div class="viz-rag__arrow">
+                                <svg viewBox="0 0 24 40">
+                                    <path d="M12 5 L12 35 M5 28 L12 35 L19 28" />
+                                </svg>
+                                Query
+                            </div>
+                            <div class="viz-rag__arrow">
+                                <svg viewBox="0 0 24 40" style="transform: rotate(180deg);">
+                                    <path d="M12 5 L12 35 M5 28 L12 35 L19 28" />
+                                </svg>
+                                Retrieve
+                            </div>
+                        </div>
+                        <div class="viz-rag__sources">
+                            <div class="viz-rag__source">📄</div>
+                            <div class="viz-rag__source">🌐</div>
+                            <div class="viz-rag__source">📚</div>
+                            <div class="viz-rag__source">🗄️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Solution 3: Data Quality Standards -->
+            <div class="solution-item fade-in">
+                <div class="solution-item__text">
+                    <p class="solution-item__number">03 / Foundation</p>
+                    <h3 class="solution-item__title">Rigorous Data Quality Standards</h3>
+                    <p class="solution-item__description">
+                        The "model collapse" research made one thing clear: data quality cannot be taken for granted. 
+                        Training on low-quality or synthetic data causes recursive degradation—each generation loses 
+                        diversity and fidelity.
+                    </p>
+                    <p class="solution-item__description">
+                        The solution requires data provenance tracking, diversity verification, and preventing 
+                        contamination from AI-generated content. This isn't just technical—it's an ethical imperative 
+                        for sustainable AI development.
+                    </p>
+                    <span class="solution-item__key">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        Quality over quantity
+                    </span>
+                </div>
+                <div class="solution-item__visual">
+                    <div class="viz-data" id="vizData">
+                        <div class="viz-data__row">
+                            <div class="viz-data__icon viz-data__icon--good">✓</div>
+                            <div class="viz-data__bar-container">
+                                <div class="viz-data__label">Human-verified data</div>
+                                <div class="viz-data__bar">
+                                    <div class="viz-data__bar-fill viz-data__bar-fill--good"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="viz-data__row">
+                            <div class="viz-data__icon viz-data__icon--bad">✗</div>
+                            <div class="viz-data__bar-container">
+                                <div class="viz-data__label">Recursive synthetic data</div>
+                                <div class="viz-data__bar">
+                                    <div class="viz-data__bar-fill viz-data__bar-fill--bad"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="color: var(--color-text-muted); font-size: 0.85rem; margin-top: var(--spacing-sm);">
+                            Model performance after 5 training generations
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implications Section -->
+    <section class="implications" id="implications">
+        <div class="container">
+            <div class="section-header fade-in">
+                <p class="section-header__eyebrow">The Bigger Picture</p>
+                <h2 class="section-header__title">Why This Shift Matters</h2>
+            </div>
+            
+            <div class="implications__grid">
+                <div class="implication-card fade-in">
+                    <div class="implication-card__icon">🏛️</div>
+                    <h3 class="implication-card__title">Democratizing AI</h3>
+                    <p class="implication-card__text">
+                        If progress depends on clever design rather than brute compute, smaller labs and 
+                        researchers can compete. The field becomes less about who has the most GPUs.
+                    </p>
+                </div>
+                
+                <div class="implication-card fade-in" style="animation-delay: 0.1s;">
+                    <div class="implication-card__icon">🌱</div>
+                    <h3 class="implication-card__title">Sustainability</h3>
+                    <p class="implication-card__text">
+                        Efficient models consume less energy. A focus on optimization over raw scaling aligns 
+                        AI development with environmental responsibility.
+                    </p>
+                </div>
+                
+                <div class="implication-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="implication-card__icon">💼</div>
+                    <h3 class="implication-card__title">Career Implications</h3>
+                    <p class="implication-card__text">
+                        For students and professionals, expertise in efficiency, architecture design, and data 
+                        quality will matter more than access to compute clusters.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+        <div class="container container--narrow fade-in">
+            <blockquote class="quote">
+                <p class="quote__text">
+                    "The 2010s were the age of scaling. Now we're back in the age of wonder and discovery."
+                </p>
+                <footer class="quote__author">
+                    — <strong>Ilya Sutskever</strong>, former Chief Scientist at OpenAI
+                </footer>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Author Section -->
+    <section class="author">
+        <div class="container container--narrow">
+            <div class="author__content fade-in">
+                <div class="author__avatar">👨‍💻</div>
+                <div class="author__info">
+                    <h4>Dev Shah</h4>
+                    <p>
+                        Computer Engineering student at the University of Illinois Urbana-Champaign. 
+                        Building AI-powered education tools and exploring what's next in machine learning.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sources Section -->
+    <section class="sources" id="sources">
+        <div class="container">
+            <h3 class="sources__title fade-in">Further Reading</h3>
+            <div class="sources__grid">
+                <a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener" class="source-link fade-in">
+                    <div class="source-link__icon">📄</div>
+                    <div class="source-link__text">
+                        <strong>Chinchilla Scaling Laws</strong>
+                        Hoffmann et al., NeurIPS 2022
+                    </div>
+                </a>
+                
+                <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener" class="source-link fade-in">
+                    <div class="source-link__icon">📄</div>
+                    <div class="source-link__text">
+                        <strong>Retrieval-Augmented Generation</strong>
+                        Lewis et al., NeurIPS 2020
+                    </div>
+                </a>
+                
+                <a href="https://www.nature.com/articles/s41586-024-07566-y" target="_blank" rel="noopener" class="source-link fade-in">
+                    <div class="source-link__icon">📄</div>
+                    <div class="source-link__text">
+                        <strong>Model Collapse Research</strong>
+                        Shumailov et al., Nature 2023
+                    </div>
+                </a>
+                
+                <a href="https://arxiv.org/abs/2211.04325" target="_blank" rel="noopener" class="source-link fade-in">
+                    <div class="source-link__icon">📄</div>
+                    <div class="source-link__text">
+                        <strong>Data Limits Analysis</strong>
+                        Villalobos et al., arXiv 2022
+                    </div>
+                </a>
+                
+                <a href="https://www.reuters.com/technology/artificial-intelligence/openai-rivals-seek-new-path-smarter-ai-current-methods-hit-limitations-2024-11-11/" target="_blank" rel="noopener" class="source-link fade-in">
+                    <div class="source-link__icon">📰</div>
+                    <div class="source-link__text">
+                        <strong>OpenAI's Scaling Plateau</strong>
+                        Reuters, November 2024
+                    </div>
+                </a>
+                
+                <a href="https://openreview.net/forum?id=BZ5a1r-kVsf" target="_blank" rel="noopener" class="source-link fade-in">
+                    <div class="source-link__icon">📄</div>
+                    <div class="source-link__text">
+                        <strong>Path to Autonomous AI</strong>
+                        Yann LeCun, OpenReview 2022
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                Created for RHET 105 Genre Remix Assignment · University of Illinois Urbana-Champaign · Fall 2025
+            </p>
+            <p style="margin-top: 0.5rem;">
+                Based on original research from <a href="#">Position Essay: Beyond the Scaling Wall</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // ==================== INTERSECTION OBSERVER FOR ANIMATIONS ====================
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Trigger specific animations
+                    if (entry.target.id === 'scalingChart') {
+                        entry.target.classList.add('animate');
+                    }
+                    if (entry.target.id === 'vizData') {
+                        entry.target.classList.add('animate');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        
+        // Observe specific chart elements
+        const scalingChart = document.getElementById('scalingChart');
+        if (scalingChart) observer.observe(scalingChart);
+        
+        const vizData = document.getElementById('vizData');
+        if (vizData) observer.observe(vizData);
+
+        // ==================== NAVIGATION SCROLL BEHAVIOR ====================
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Show nav after scrolling down 100px
+            if (currentScroll > 100) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // ==================== SMOOTH SCROLL FOR NAV LINKS ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ==================== PARALLAX EFFECT FOR HERO ====================
+        const hero = document.querySelector('.hero');
+        const heroGrid = document.querySelector('.hero__grid');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroHeight = hero.offsetHeight;
+            
+            if (scrolled < heroHeight) {
+                const opacity = 1 - (scrolled / heroHeight);
+                hero.style.opacity = Math.max(opacity, 0);
+                
+                if (heroGrid) {
+                    heroGrid.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+            }
+        });
+
+        // ==================== TYPING EFFECT FOR HERO (OPTIONAL) ====================
+        // Adds a subtle reveal animation to the title
+        const heroTitle = document.querySelector('.hero__title');
+        if (heroTitle) {
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                heroTitle.style.transition = 'opacity 1s ease, transform 1s ease';
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        // ==================== ANIMATE HERO ELEMENTS ON LOAD ====================
+        window.addEventListener('load', () => {
+            const heroElements = [
+                '.hero__label',
+                '.hero__title',
+                '.hero__subtitle',
+                '.hero__cta'
+            ];
+            
+            heroElements.forEach((selector, index) => {
+                const el = document.querySelector(selector);
+                if (el) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 200 + (index * 150));
+                }
+            });
+        });
+
+        // ==================== CONSOLE EASTER EGG ====================
+        console.log('%c🚀 Beyond the Scaling Wall', 'font-size: 24px; font-weight: bold; color: #6366f1;');
+        console.log('%cA Genre Remix by Dev Shah for RHET 105', 'font-size: 14px; color: #94a3b8;');
+        console.log('%cUIUC · Fall 2025', 'font-size: 12px; color: #64748b;');
+    </script>
+</body>
+</html>
